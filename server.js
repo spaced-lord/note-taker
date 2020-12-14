@@ -27,10 +27,31 @@ app.get('/api/notes', (req, res) => {
 
 
 // POST new note
-app.post('/api/notes', (req, res) {
-    res.send(path.join(_dirname, '/notes'))
-})
+app.post('/api/notes', (req, res) => {
+    let newNote = req.body;
+    newNote.id = shortid.generate();
+    fs.readFile(path.join(_dirname, '/db/db.json'), (err,data) => {
+        if (err) {
+            console.log(error);
+        } else {
+            let storedData = JSON.parse(data);
+            storedData.push(newNote);
+            fs.writeFile(
+                path.join(_dirname, "/db/db.json"),
+                JSON.stringify(storedData),
+                (err) => {
+                    if (err) {
+                        console.log(error);
+                    }
+                }
+            );
+        }
+    });
+    // End
+    res.end();
+});
 
-// creating a variable parse database parse(db.json), read file and response is json of the variable. 
-// json as a method  
-// three gets, one post (review post), one delete.
+app.listen.(PORT, () => console.log(`You are tuned to PORT ${PORT}`));
+
+
+
