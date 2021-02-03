@@ -54,14 +54,14 @@ app.post('/api/notes', (req, res) => {
 
 
 app.delete('/api/notes/:id', (req, res) => {
-    let selectId = req.params.id;
+    let uniqId = req.params.id;
     fs.readFile(path.join(__dirname, '/db/db.json'), (err, data) => {
         if (err) {
             console.log(error);
         } else {
             let storedData = JSON.parse(data);
             for (let i = 0; i < storedData.length; i++) {
-                if (storedData[i].id === selectId) {
+                if (storedData[i].id === uniqId) {
                     storedData.splice(i, i);
                 }
             }
